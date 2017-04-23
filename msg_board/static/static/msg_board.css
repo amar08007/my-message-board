@@ -1,0 +1,13 @@
+/* My Custom CSS for the Message Board */
+.heading {
+    text-align: center;
+    text-decoration: underline;
+}
+
+.post-msg-box {
+	width: 100%;
+    border: 2px solid black;
+    padding: 25px;
+    margin: 25px;
+    margin-right: 40px;
+}

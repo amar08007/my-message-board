@@ -24,9 +24,14 @@ SECRET_KEY = 'aimuo02o5fx)v#1$@cbb(j=kk60mh9t93lmrf9a0ijz&b(b4q5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+ALLOWED_HOSTS = ['*']
 
-ALLOWED_HOSTS = []
-
+# Rest Framework global dict
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+    'PAGE_SIZE': 1,
+}
 
 # Application definition
 
@@ -37,6 +42,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'api',
+    'board',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -76,8 +84,14 @@ WSGI_APPLICATION = 'msg_board.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'msg_board',
+        'USER': 'myuser',
+        'PASSWORD': 'myuser123',
+        'STORAGE_ENGINE': 'MyISAM / INNODB / ETC',
+        'OPTIONS' : {
+            'local_infile':1,
+        },
     }
 }
 
@@ -87,16 +101,36 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static", "static-only")
+MEDIA_ROOT = os.path.join(BASE_DIR, "static", "media")
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static", "static"), )
+                   

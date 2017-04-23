@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>My Message Board</title>
+
+	<!-- Common CSS -->
+	<!-- Bootstrap core CSS -->
+	<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+	<!-- Custom Main StyleSheet CSS -->
+	<link href="/static/msg_board.css" rel="stylesheet">
+	<!-- Plugin CSS -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+	<!-- Responsive CSS -->
+	<!-- <link href="/static/css/responsive.css" rel="stylesheet"> -->
+
+</head>
+<body>
+	<div class="container">
+		<h1 class="heading">My Message Board</h1>
+		<br/>
+		<form method="post" action="/">
+			<div class="">
+				<h3>Post Your Message</h3>
+				<hr/>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+						    <input class="form-control" id="inputdefault" placeholder="Please enter your message here (Max 140 characters)" type="text" name="text" maxlength="140" required>
+				  		</div>
+				  	</div>
+				  	<div class="col-md-2">
+						<div class="form-group">
+						    <input class="form-control" id="inputdefault" name="name" placeholder="Name (Optional)" type="text" maxlength="25">
+				  		</div>
+				  	</div>
+				  	<div class="col-md-2">
+						<div class="form-group">
+						    <input class="form-control" id="inputdefault" name="email" placeholder="Email (Optional)" type="email" maxlength="50">
+				  		</div>
+				  	</div>
+				  	<div class="col-md-2">
+				  		<div class="form-group">
+				  			<button type="submit" action="submit" class="btn btn-info">Post Message</button>
+				  		</div>
+				  	</div>
+				</div>
+			</div>
+		</form>
+		<br/>
+		<div class="">
+			<h3>View All Messages</h3>
+			<hr/>
+			<button onclick="deleteAll()" class="btn btn-warning pull-right">Delete All Messages</button>
+			<br/>
+	        <table id="example" 
+	            class="table table-striped table-bordered table-hover ui-datatable" 
+	            data-length-change="true"
+	            data-info="true"
+	            data-paging="true"
+	            data-page-length="10">
+	          	<thead>
+	          		<br/>
+	            	<tr>
+	            		<th width="90%" data-sortable="true">Message</th>
+		                <th width="10%" >Delete Message</th>
+	            	</tr>
+	          	</thead>
+	          	<tbody>
+	            	{% for msg in msgs %}
+		                <tr>
+		                	<td>{{ msg.created_at }}<br/><strong>{{ msg.sender_name }} :</strong> {{ msg.msg_text}}
+		                	</td>
+							<td><a onclick="deletePost({{ msg.id }})">Delete</a></td>
+		              	</tr>
+	            	{% endfor %}
+	          	</tbody>
+	        </table>
+		</div>
+	</div>
+</body>
+
+
+<!-- Plugin JS -->
+<script href="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script href="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+<script href="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<script>
+	function deletePost(id) {
+	    // if (confirm("This action will delete the message!") == true) {
+    	var token = prompt("Please enter the secret token to delete the message");
+    	if (token != ''){
+        	window.location = "/delete-msg?id="+id+"&token="+token;
+	    }
+	}
+	function deleteAll() {
+	    // if (confirm("This action will delete the message!") == true) {
+    	var token = prompt("Please enter the secret token to delete all messages");
+    	if (token != ''){
+        	window.location = "/delete-all-msgs?token="+token;
+	    }
+	}
+</script>
+
+</html>
